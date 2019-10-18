@@ -15,6 +15,7 @@ class CreateSavingsOrganizationsTable extends Migration
     {
         Schema::create('savings_organizations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->timestamps();
         });
     }

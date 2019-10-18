@@ -15,15 +15,15 @@ class CreateSavingsTransactionsTable extends Migration
     {
         Schema::create('savings_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('type_id');
-            $table->integer('organization_id');
+            $table->integer('user_id'); // Owner
+            $table->integer('type_id'); // DPS, Sanchaypatra
+            $table->integer('organization_id'); // DBBL, BD Bank, EBL
             $table->decimal('amount');
             $table->integer('duration')->comment('Year');
-            $table->date('start_date')->useCurrent();
+            $table->date('start_date');
             $table->date('mature_date');
-            $table->integer('status_id');
-            $table->integer('has_withdrawn');
+            $table->integer('status_id')->default(1); // 1 = Running, 0 = Matured
+            $table->integer('has_withdrawn'); // 1 = Yes, 0 = No
             $table->timestamps();
         });
     }
