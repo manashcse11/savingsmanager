@@ -13,7 +13,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        echo"Hello Trans";
+        return view('transaction.list');
     }
 
     /**

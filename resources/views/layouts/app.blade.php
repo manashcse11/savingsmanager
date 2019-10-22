@@ -55,6 +55,11 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a class="dropdown-item" href="{{ route('home') }}">
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" href="{{ route('transaction.index') }}">
                                             Transactions
                                         </a>
