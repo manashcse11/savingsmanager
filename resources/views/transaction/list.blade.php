@@ -4,8 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">Transaction List</div>
+            <div class="card border-info">
+                <div class="card-header">
+                    Transaction List
+                    <a href="{{ route('transaction.create') }}" class="badge badge-success">Add Transaction</a>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
