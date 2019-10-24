@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\User;
 use App\Type;
 use App\Organization;
@@ -42,7 +43,21 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'start_date' => 'required',
+            'duration' => 'required|numeric',
+        ]);
+        $transaction = new Transaction();
+        $transaction->user_id = $request->user_id;
+        $transaction->type_id = $request->type_id;
+        $transaction->organization_id = $request->organization_id;
+        $transaction->amount = $request->amount;
+        $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+        $transaction->duration = $request->duration;
+        $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
+        $transaction->save();
+        return redirect('/transaction');
     }
 
     /**

@@ -23,7 +23,7 @@ class CreateSavingsTransactionsTable extends Migration
             $table->date('start_date');
             $table->date('mature_date');
             $table->integer('status_id')->default(1); // 1 = Running, 0 = Matured
-            $table->integer('has_withdrawn'); // 1 = Yes, 0 = No
+            $table->integer('has_withdrawn')->default(0); // 1 = Yes, 0 = No
             $table->timestamps();
         });
     }

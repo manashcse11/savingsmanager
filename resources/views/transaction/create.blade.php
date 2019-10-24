@@ -21,7 +21,7 @@
                             <label for="user_id">Name</label>
                             <select name="user_id" class="form-control">
                                 @foreach ($users as $user)
-                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                    <option value="{{$user->id}}" {{ $user->id == old('user_id') ? 'selected' : '' }}>{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -29,7 +29,7 @@
                             <label for="type_id">Type</label>
                             <select name="type_id" class="form-control">
                                 @foreach ($types as $type)
-                                    <option value="{{$type->id}}">{{$type->name}}</option>
+                                    <option value="{{$type->id}}" {{ $type->id == old('type_id') ? 'selected' : '' }}>{{$type->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -37,21 +37,24 @@
                             <label for="organization_id">Organization</label>
                             <select name="organization_id" class="form-control">
                                 @foreach ($organizations as $organization)
-                                    <option value="{{$organization->id}}">{{$organization->name}}</option>
+                                    <option value="{{$organization->id}}" {{ $organization->id == old('organization_id') ? 'selected' : '' }}>{{$organization->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input class="form-control" type="text" name="amount" placeholder="Taka">
+                            <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : ''}}" type="text" name="amount" value="{{ old('amount')}}" placeholder="10000">
+                            <small class="text-danger">{{ $errors->first('amount') }}</small>
                         </div>
                         <div id="date_picker" class="date_picker form-group">
-                            <label for="user_id">Start Date</label>
-                            <datepicker name="start_date" input-class="form-control"></datepicker>
+                            <label for="start_date">Start Date</label>
+                            <datepicker name="start_date" input-class="form-control {{ $errors->has('start_date') ? 'is-invalid' : ''}}" value="{{ old('start_date')}}"></datepicker>
+                            <small class="text-danger">{{ $errors->first('start_date') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="duration">Duration</label>
-                            <input class="form-control" type="text" name="duration" placeholder="Years">
+                            <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : ''}}" type="text" name="duration" placeholder="5" value="{{ old('duration')}}">
+                            <small class="text-danger">{{ $errors->first('duration') }}</small>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
