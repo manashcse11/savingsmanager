@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Type;
+use App\Organization;
+use App\Transaction;
 
 class TransactionController extends Controller
 {
@@ -24,7 +28,10 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return view('transaction.create');
+        $data['users'] = User::orderby('name')->get();
+        $data['types'] = Type::orderby('name')->get();
+        $data['organizations'] = Organization::orderby('name')->get();
+        return view('transaction.create', $data);
     }
 
     /**
@@ -35,7 +42,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

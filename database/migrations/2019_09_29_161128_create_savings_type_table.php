@@ -13,7 +13,7 @@ class CreateSavingsTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('savings_type', function (Blueprint $table) {
+        Schema::create('savings_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateSavingsTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('savings_type');
+        Schema::dropIfExists('savings_types');
     }
 }
