@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : ''}}" type="text" name="amount" value="{{ old('amount')}}" placeholder="10000">
+                            <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : ''}}" type="text" name="amount" value="{{ old('amount')}}" placeholder="Put amount here, e.g. 10000">
                             <small class="text-danger">{{ $errors->first('amount') }}</small>
                         </div>
                         <div id="date_picker" class="date_picker form-group">
@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label for="duration">Duration</label>
-                            <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : ''}}" type="text" name="duration" placeholder="5" value="{{ old('duration')}}">
+                            <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : ''}}" type="text" name="duration" placeholder="How many years, e.g. 5 " value="{{ old('duration')}}">
                             <small class="text-danger">{{ $errors->first('duration') }}</small>
                         </div>
                         <div class="form-group row">

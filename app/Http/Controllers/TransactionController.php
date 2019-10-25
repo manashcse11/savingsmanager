@@ -56,8 +56,10 @@ class TransactionController extends Controller
         $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
         $transaction->duration = $request->duration;
         $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
-        $transaction->save();
-        return redirect('/transaction');
+        if($transaction->save()){
+            $request->session()->flash('status', 'Transaction added successfully!');
+            return redirect()->route('transaction.create');
+        }        
     }
 
     /**
