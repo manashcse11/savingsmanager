@@ -55,6 +55,7 @@ class TransactionController extends Controller
         $transaction->amount = $request->amount;
         $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
         $transaction->duration = $request->duration;
+        $transaction->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
         $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
         if($transaction->save()){
             $request->session()->flash('status', 'Transaction added successfully!');

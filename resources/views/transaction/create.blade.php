@@ -56,6 +56,10 @@
                             <input class="form-control {{ $errors->has('duration') ? 'is-invalid' : ''}}" type="text" name="duration" placeholder="How many years, e.g. 5 " value="{{ old('duration')}}">
                             <small class="text-danger">{{ $errors->first('duration') }}</small>
                         </div>
+                        <div class="form-check">
+                            <input style="cursor: pointer" type="checkbox" class="form-check-input" id="auto_renewal" name="auto_renewal" value=1 {{ old('auto_renewal') == 1 ? 'checked' : '' }}>
+                            <label style="cursor: pointer" class="form-check-label" for="auto_renewal">Auto Renewal</label>
+                        </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
                                 <button type="submit" class="btn btn-primary">Add</button>

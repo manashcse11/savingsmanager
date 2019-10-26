@@ -17,6 +17,7 @@ class CreateSavingsTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id'); // Owner
             $table->integer('type_id'); // DPS, Sanchaypatra
+            $table->integer('auto_renewal')->default(0); // Applicable for 3 years Sanchaypatra
             $table->integer('organization_id'); // DBBL, BD Bank, EBL
             $table->decimal('amount');
             $table->integer('duration')->comment('Year');
