@@ -13,8 +13,8 @@ class TypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('savings_types')->insert([
-            ['name' => "DPS"]
-            , ['name' => "Sanchaypatra"]
+            ['name' => "DPS", "slug" => "dps"]
+            , ['name' => "Sanchaypatra", "slug" => "fdr"]
         ]);
     }
 }

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Type;
 use App\Organization;
+use App\Status;
 use App\Transaction;
 
 class TransactionController extends Controller
@@ -18,8 +19,13 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->type_id);
-        return view('transaction.list');
+        $data['users'] = User::orderby('name')->get();
+        $data['types'] = Type::orderby('name')->get();
+        $data['organizations'] = Organization::orderby('name')->get();
+        $data['statuses'] = Status::orderby('name')->get();
+        $data['type'] = Type::where('slug', $request->slug)->first();
+        $data['transactions'] = Transaction::where('type_id', $data['type']['id'])->orderby('start_date')->get();
+        return view('transaction.list', $data);
     }
 
     /**

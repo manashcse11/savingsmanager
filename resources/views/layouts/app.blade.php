@@ -60,7 +60,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('transaction.index') }}">
+                                        <a class="dropdown-item" href="{{ route('transaction.index', ['slug' => 'dps']) }}">
                                             Transactions
                                         </a>
                                     </li>
