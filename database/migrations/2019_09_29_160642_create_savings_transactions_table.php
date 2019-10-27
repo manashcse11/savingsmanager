@@ -21,6 +21,7 @@ class CreateSavingsTransactionsTable extends Migration
             $table->integer('organization_id'); // DBBL, BD Bank, EBL
             $table->decimal('amount');
             $table->integer('duration')->comment('Year');
+            $table->decimal('interest_rate')->default(0);
             $table->date('start_date');
             $table->date('mature_date');
             $table->integer('status_id')->default(1); // 1 = Running, 0 = Matured

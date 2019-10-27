@@ -25,9 +25,7 @@ class TransactionController extends Controller
         $data['organizations'] = Organization::orderby('name')->get();
         $data['statuses'] = Status::orderby('name')->get();
         $data['type'] = Type::where('slug', $request->slug)->first();
-        // $data['transactions'] = Transaction::where('type_id', $data['type']['id'])->orderby('start_date')->get();
         $data['transactions'] = $transaction->get_transactions_by_type($data['type']['id']);
-        // dd($data['transactions']->toArray());
         return view('transaction.list', $data);
     }
 
@@ -56,6 +54,7 @@ class TransactionController extends Controller
             'amount' => 'required|numeric',
             'start_date' => 'required',
             'duration' => 'required|numeric',
+            'interest_rate' => 'required|numeric',
         ]);
         $transaction = new Transaction();
         $transaction->user_id = $request->user_id;
@@ -64,6 +63,7 @@ class TransactionController extends Controller
         $transaction->amount = $request->amount;
         $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
         $transaction->duration = $request->duration;
+        $transaction->interest_rate = $request->interest_rate;
         $transaction->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
         $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
         if($transaction->save()){
