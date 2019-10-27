@@ -10,8 +10,7 @@
             <thead>
                 <tr>
                     <th style="vertical-align: top !important; " scope="col">
-                        #
-                        <input type="hidden" name="slug" value="{{$type->slug}}">
+                        #<input type="hidden" name="slug" value="{{$type->slug}}">
                     </th>
                     <th style="vertical-align: top !important; " scope="col">
                         Owner
@@ -56,17 +55,20 @@
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>EBL</td>
-                    <td>10000</td>
-                    <td>03 September, 2019</td>
-                    <td>5</td>
-                    <td>Running</td>
-                    <td>03 September, 2024</td>
-                    <td>03 September, 2024</td>
-                    <td>03 September, 2024</td>
-                    <td>03 September, 2024</td>
-                    <td>03 September, 2024</td>
+                    @foreach ($transactions as $tr)
+                        <th scope="row">{{ $loop->index + 1 }}</th>
+                        <td>{{ $tr->user->name }}</td>
+                        <td>{{ $tr->organization->name }}</td>
+                        <td>{{ $tr->amount }}</td>
+                        <td>{{ $tr->start_date }}</td>
+                        <td>{{ $tr->duration }}</td>
+                        <td>{{ $tr->interest_rate }}</td>
+                        <td>{{ $tr->interest_rate }}</td>
+                        <td>{{ $tr->interest_rate }}</td>
+                        <td>{{ $tr->interest_rate }}</td>
+                        <td>{{ $tr->status->name }}</td>
+                        <td>{{ $tr->mature_date }}</td>
+                    @endforeach                    
                 </tr>
             </tbody>
         </table>

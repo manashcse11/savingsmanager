@@ -59,11 +59,13 @@
                                             Dashboard
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('transaction.index', ['slug' => 'dps']) }}">
-                                            Transactions
-                                        </a>
-                                    </li>
+                                    @foreach ($types as $tmenu)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('transaction.index', ['slug' => $tmenu->slug]) }}">
+                                                {{$tmenu->name}}
+                                            </a>
+                                        </li>
+                                    @endforeach
                                     <li>
                                         <a class="dropdown-item" href="{{ route('report.index') }}">
                                             Report

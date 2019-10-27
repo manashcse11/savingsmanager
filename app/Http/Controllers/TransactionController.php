@@ -19,12 +19,15 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
+        $transaction = new Transaction();
         $data['users'] = User::orderby('name')->get();
         $data['types'] = Type::orderby('name')->get();
         $data['organizations'] = Organization::orderby('name')->get();
         $data['statuses'] = Status::orderby('name')->get();
         $data['type'] = Type::where('slug', $request->slug)->first();
-        $data['transactions'] = Transaction::where('type_id', $data['type']['id'])->orderby('start_date')->get();
+        // $data['transactions'] = Transaction::where('type_id', $data['type']['id'])->orderby('start_date')->get();
+        $data['transactions'] = $transaction->get_transactions_by_type($data['type']['id']);
+        // dd($data['transactions']->toArray());
         return view('transaction.list', $data);
     }
 
