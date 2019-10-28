@@ -1,4 +1,4 @@
-<div class="card-body">
+<div style="overflow-x:auto;" class="card-body">
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -6,7 +6,7 @@
     @endif
     <form method="GET" action="{{ route('transaction.index') }}">
         @csrf
-        <table class="table table-bordered table-hover">
+        <table style="font-size:12px;" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th style="vertical-align: top !important; " scope="col">
@@ -15,6 +15,7 @@
                     <th style="vertical-align: top !important; " scope="col">
                         Owner
                         <select name="user_id" class="form-control form-control-sm">
+                            <option value="">All</option>
                             @foreach ($users as $user)
                                 <option value="{{$user->id}}" {{ $user->id == old('user_id') ? 'selected' : '' }}>{{$user->name}}</option> 
                             @endforeach
@@ -23,6 +24,7 @@
                     <th style="vertical-align: top !important; " scope="col">
                         Organization
                         <select name="organization_id" class="form-control form-control-sm">
+                            <option value="">All</option>
                             @foreach ($organizations as $organization)
                                 <option value="{{$organization->id}}" {{ $organization->id == old('organization_id') ? 'selected' : '' }}>{{$organization->name}}</option> 
                             @endforeach
@@ -38,6 +40,7 @@
                     <th style="vertical-align: top !important; " scope="col">
                         Status
                         <select name="status_id" class="form-control form-control-sm">
+                            <option value="">All</option>
                             @foreach ($statuses as $status)
                                 <option value="{{$status->id}}" {{ $status->id == old('status_id') ? 'selected' : '' }}>{{$status->name}}</option> 
                             @endforeach
@@ -51,6 +54,10 @@
                             </div>
                         </div>
                     </th>
+                    <th style="vertical-align: top !important; " scope="col">AR Mature Date</th>
+                    <th style="vertical-align: top !important; " scope="col">Interest Before Tax</th>
+                    <th style="vertical-align: top !important; " scope="col">Interest</th>
+                    <th style="vertical-align: top !important; " scope="col">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +75,10 @@
                         <td>{{ $tr->total_amount }}</td>
                         <td>{{ $tr->status->name }}</td>
                         <td>{{ $tr->mature_date }}</td>
+                        <td>{{ $tr->ar_mature_date }}</td>
+                        <td>{{ $tr->ar_interest_before_tax }}</td>
+                        <td>{{ $tr->ar_interest_actual_amount }}</td>
+                        <td>{{ $tr->ar_total_amount }}</td>
                     @endforeach                    
                 </tr>
             </tbody>

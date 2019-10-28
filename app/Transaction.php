@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Transaction extends Model
 {
@@ -11,6 +12,10 @@ class Transaction extends Model
         'interest_before_tax'
         , 'interest_actual_amount'
         , 'total_amount'
+        , 'ar_mature_date'
+        , 'ar_interest_before_tax'
+        , 'ar_interest_actual_amount'
+        , 'ar_total_amount'
     ];
     /**
      * The attributes that are mass assignable.
@@ -49,7 +54,6 @@ class Transaction extends Model
     /**
      * Get the transaction's interest_before_tax
      *
-     * @param  string  $value
      * @return string
      */
     public function getInterestBeforeTaxAttribute(){
@@ -59,7 +63,6 @@ class Transaction extends Model
     /**
      * Get the transaction's interest_actual_amount
      *
-     * @param  string  $value
      * @return string
      */
     public function getInterestActualAmountAttribute(){
@@ -70,10 +73,46 @@ class Transaction extends Model
     /**
      * Get the transaction's total_amount
      *
-     * @param  string  $value
      * @return string
      */
      public function getTotalAmountAttribute(){
         return $this->amount + $this->interest_actual_amount;
+    }
+
+    /**
+     * Get the transaction's ar_mature_date
+     *
+     * @return string
+     */
+     public function getArMatureDateAttribute(){
+        return Carbon::parse($this->mature_date)->addYears($this->duration)->format('Y-m-d');
+    }
+
+    /**
+     * Get the transaction's ar_interest_before_tax
+     *
+     * @return string
+     */
+     public function getArInterestBeforeTaxAttribute(){
+        return round((($this->interest_rate * $this->total_amount) / 100) * $this->duration);
+    }
+
+    /**
+     * Get the transaction's ar_interest_actual_amount
+     *
+     * @return string
+     */
+     public function getArInterestActualAmountAttribute(){
+        $tax = 10;
+        return $this->ar_interest_before_tax - ($this->ar_interest_before_tax * $tax) / 100;
+    }
+
+    /**
+     * Get the transaction's ar_total_amount
+     *
+     * @return string
+     */
+     public function getArTotalAmountAttribute(){
+        return $this->total_amount + $this->ar_interest_actual_amount;
     }
 }
