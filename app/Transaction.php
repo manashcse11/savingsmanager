@@ -43,14 +43,35 @@ class Transaction extends Model
         return $this->hasOne('App\Status', 'id', 'status_id');
     }
     /**
+     * Scopes
+     */
+    public function scopeTransactionFilter($query, $filters, $prefix){
+        foreach($filters as $field => $value){
+            $field = $this->startsWithRemove( $field, $prefix );
+            if($field && $value){
+                $query->where($field, $value);
+            }            
+        }
+        return $query;
+    }
+    /**
      * User defined functions
      */
-    public function get_transactions_by_type($type_id){
+    public function get_transactions($type_id, $filters){                
         return $this->where('type_id', $type_id)
+        ->transactionFilter($filters, "filter_")
         ->with(['user', 'organization', 'status'])
         ->orderby('start_date')
         ->get();
     }
+
+    public function startsWithRemove ($str, $prefix) 
+    { 
+        if (substr($str, 0, strlen($prefix)) == $prefix) {
+            return $str = substr($str, strlen($prefix));
+        }  
+    } 
+    
     /**
      * Get the transaction's interest_before_tax
      *

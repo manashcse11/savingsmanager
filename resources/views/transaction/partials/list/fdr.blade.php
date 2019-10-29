@@ -14,19 +14,19 @@
                     </th>
                     <th style="vertical-align: top !important; " scope="col">
                         Owner
-                        <select name="user_id" class="form-control form-control-sm">
+                        <select name="filter_user_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($users as $user)
-                                <option value="{{$user->id}}" {{ $user->id == old('user_id') ? 'selected' : '' }}>{{$user->name}}</option> 
+                                <option value="{{$user->id}}" {{ $user->id == request('filter_user_id') ? 'selected' : '' }}>{{$user->name}}</option> 
                             @endforeach
                         </select>
                     </th>
                     <th style="vertical-align: top !important; " scope="col">
                         Organization
-                        <select name="organization_id" class="form-control form-control-sm">
+                        <select name="filter_organization_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($organizations as $organization)
-                                <option value="{{$organization->id}}" {{ $organization->id == old('organization_id') ? 'selected' : '' }}>{{$organization->name}}</option> 
+                                <option value="{{$organization->id}}" {{ $organization->id == request('filter_organization_id') ? 'selected' : '' }}>{{$organization->name}}</option> 
                             @endforeach
                         </select>
                     </th>
@@ -39,10 +39,10 @@
                     <th style="vertical-align: top !important; " scope="col">Total</th>
                     <th style="vertical-align: top !important; " scope="col">
                         Status
-                        <select name="status_id" class="form-control form-control-sm">
+                        <select name="filter_status_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($statuses as $status)
-                                <option value="{{$status->id}}" {{ $status->id == old('status_id') ? 'selected' : '' }}>{{$status->name}}</option> 
+                                <option value="{{$status->id}}" {{ $status->id == request('filter_status_id') ? 'selected' : '' }}>{{$status->name}}</option> 
                             @endforeach
                         </select>
                     </th>

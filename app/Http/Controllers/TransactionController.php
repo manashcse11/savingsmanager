@@ -25,7 +25,7 @@ class TransactionController extends Controller
         $data['organizations'] = Organization::orderby('name')->get();
         $data['statuses'] = Status::orderby('name')->get();
         $data['type'] = Type::where('slug', $request->slug)->first();
-        $data['transactions'] = $transaction->get_transactions_by_type($data['type']['id']);
+        $data['transactions'] = $transaction->get_transactions($data['type']['id'], $request->all());
         return view('transaction.list', $data);
     }
 
