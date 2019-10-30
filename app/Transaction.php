@@ -12,6 +12,8 @@ class Transaction extends Model
         'interest_before_tax'
         , 'interest_actual_amount'
         , 'total_amount'
+        , 'dps_paid'
+        , 'dps_due'
         , 'ar_mature_date'
         , 'ar_interest_before_tax'
         , 'ar_interest_actual_amount'
@@ -78,7 +80,12 @@ class Transaction extends Model
      * @return string
      */
     public function getInterestBeforeTaxAttribute(){
-        return (($this->interest_rate * $this->amount) / 100) * $this->duration;
+        if($this->type->slug == "fdr"){
+            return (($this->interest_rate * $this->amount) / 100) * $this->duration;
+        }
+        if($this->type->slug == "dps"){
+            return (($this->interest_rate * $this->amount * 12 * $this->duration) / 100);
+        }        
     }
 
     /**
@@ -97,7 +104,33 @@ class Transaction extends Model
      * @return string
      */
      public function getTotalAmountAttribute(){
-        return $this->amount + $this->interest_actual_amount;
+        if($this->type->slug == "fdr"){
+            return $this->amount + $this->interest_actual_amount;
+        }
+        if($this->type->slug == "dps"){
+            return $this->amount * 12 * $this->duration + $this->interest_actual_amount;
+        }          
+    }
+
+    /**
+     * Get the transaction's dps_paid
+     *
+     * @return string
+     */
+     public function getDpsPaidAttribute(){
+        $start_date = Carbon::parse($this->start_date);
+        $today = Carbon::now();
+        $month_gone = $today->diffInMonths($start_date);
+        return $this->amount * $month_gone;  
+    }
+
+    /**
+     * Get the transaction's dps_paid
+     *
+     * @return string
+     */
+     public function getDpsDueAttribute(){
+        return ($this->amount * 12 * $this->duration) - $this->dps_paid;
     }
 
     /**
@@ -115,7 +148,7 @@ class Transaction extends Model
      * @return string
      */
      public function getArInterestBeforeTaxAttribute(){
-        return round((($this->interest_rate * $this->total_amount) / 100) * $this->duration);
+        return $this->auto_renewal ? round((($this->interest_rate * $this->total_amount) / 100) * $this->duration) : "N/A";
     }
 
     /**
@@ -125,7 +158,7 @@ class Transaction extends Model
      */
      public function getArInterestActualAmountAttribute(){
         $tax = 10;
-        return $this->ar_interest_before_tax - ($this->ar_interest_before_tax * $tax) / 100;
+        return $this->auto_renewal ? $this->ar_interest_before_tax - ($this->ar_interest_before_tax * $tax) / 100 : "N/A";
     }
 
     /**
@@ -134,6 +167,6 @@ class Transaction extends Model
      * @return string
      */
      public function getArTotalAmountAttribute(){
-        return $this->total_amount + $this->ar_interest_actual_amount;
+        return $this->auto_renewal ? $this->total_amount + $this->ar_interest_actual_amount : "N/A";
     }
 }

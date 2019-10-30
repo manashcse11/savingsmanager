@@ -61,8 +61,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach ($transactions as $tr)
+                @foreach ($transactions as $tr)
+                    <tr>                    
                         <th scope="row">{{ $loop->index + 1 }}</th>
                         <td>{{ $tr->user->name }}</td>
                         <td>{{ $tr->organization->name }}</td>
@@ -78,9 +78,9 @@
                         <td>{{ $tr->ar_mature_date }}</td>
                         <td>{{ $tr->ar_interest_before_tax }}</td>
                         <td>{{ $tr->ar_interest_actual_amount }}</td>
-                        <td>{{ $tr->ar_total_amount }}</td>
-                    @endforeach                    
-                </tr>
+                        <td>{{ $tr->ar_total_amount }}</td>                                        
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </form>
