@@ -6,7 +6,7 @@
     @endif
     <form method="GET" action="{{ route('transaction.index') }}">
         @csrf
-        <table style="font-size:12px;" class="table table-bordered table-hover">
+        <table style="font-size:13px;" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th style="vertical-align: top !important; " scope="col">
@@ -81,7 +81,7 @@
                         <td>{{ $tr->ar_interest_actual_amount }}</td>
                         <td>{{ $tr->ar_total_amount }}</td>
                         <td>
-                            <a href="{{route('transaction.show', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>
+                            <a href="{{route('transaction.edit', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>
                             <a href="{{route('transaction.destroy', $tr->id)}}"><i class="fa fa-trash float-right text-danger fa-lg"></i></a>
                         </td>
                     </tr>

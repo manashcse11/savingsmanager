@@ -69,7 +69,7 @@ class TransactionController extends Controller
         if($transaction->save()){
             $request->session()->flash('status', 'Transaction added successfully!');
             return redirect()->route('transaction.create');
-        }        
+        }
     }
 
     /**
@@ -91,7 +91,11 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['users'] = User::orderby('name')->get();
+        $data['types'] = Type::orderby('name')->get();
+        $data['organizations'] = Organization::orderby('name')->get();
+        $data['transaction'] = Transaction::find($id);
+        return view('transaction.edit', $data);
     }
 
     /**
@@ -101,9 +105,29 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Transaction $transaction)
     {
-        //
+        $request->validate([
+            'amount' => 'required|numeric',
+            'start_date' => 'required',
+            'duration' => 'required|numeric',
+            'interest_rate' => 'required|numeric',
+        ]);
+
+        $transaction->user_id = $request->user_id;
+        $transaction->type_id = $request->type_id;
+        $transaction->organization_id = $request->organization_id;
+        $transaction->amount = $request->amount;
+        $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+        $transaction->duration = $request->duration;
+        $transaction->interest_rate = $request->interest_rate;
+        $transaction->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
+        $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
+        if($transaction->save()){
+            $type = Type::find($transaction->type_id);
+            $request->session()->flash('status', 'Transaction saved successfully!');
+            return redirect()->route('transaction.index', ['slug' => $type->slug]);
+        }
     }
 
     /**
