@@ -17,7 +17,7 @@
                         <select name="filter_user_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($users as $user)
-                                <option value="{{$user->id}}" {{ $user->id == request('filter_user_id') ? 'selected' : '' }}>{{$user->name}}</option> 
+                                <option value="{{$user->id}}" {{ $user->id == request('filter_user_id') ? 'selected' : '' }}>{{$user->name}}</option>
                             @endforeach
                         </select>
                     </th>
@@ -26,7 +26,7 @@
                         <select name="filter_organization_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($organizations as $organization)
-                                <option value="{{$organization->id}}" {{ $organization->id == request('filter_organization_id') ? 'selected' : '' }}>{{$organization->name}}</option> 
+                                <option value="{{$organization->id}}" {{ $organization->id == request('filter_organization_id') ? 'selected' : '' }}>{{$organization->name}}</option>
                             @endforeach
                         </select>
                     </th>
@@ -42,7 +42,7 @@
                         <select name="filter_status_id" class="form-control form-control-sm">
                             <option value="">All</option>
                             @foreach ($statuses as $status)
-                                <option value="{{$status->id}}" {{ $status->id == request('filter_status_id') ? 'selected' : '' }}>{{$status->name}}</option> 
+                                <option value="{{$status->id}}" {{ $status->id == request('filter_status_id') ? 'selected' : '' }}>{{$status->name}}</option>
                             @endforeach
                         </select>
                     </th>
@@ -58,11 +58,12 @@
                     <th style="vertical-align: top !important; " scope="col">Interest Before Tax</th>
                     <th style="vertical-align: top !important; " scope="col">Interest</th>
                     <th style="vertical-align: top !important; " scope="col">Total</th>
+                    <th style="vertical-align: top !important; " scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($transactions as $tr)
-                    <tr>                    
+                    <tr>
                         <th scope="row">{{ $loop->index + 1 }}</th>
                         <td>{{ $tr->user->name }}</td>
                         <td>{{ $tr->organization->name }}</td>
@@ -78,7 +79,11 @@
                         <td>{{ $tr->ar_mature_date }}</td>
                         <td>{{ $tr->ar_interest_before_tax }}</td>
                         <td>{{ $tr->ar_interest_actual_amount }}</td>
-                        <td>{{ $tr->ar_total_amount }}</td>                                        
+                        <td>{{ $tr->ar_total_amount }}</td>
+                        <td>
+                            <a href="{{route('transaction.show', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>
+                            <a href="{{route('transaction.destroy', $tr->id)}}"><i class="fa fa-trash float-right text-danger fa-lg"></i></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
