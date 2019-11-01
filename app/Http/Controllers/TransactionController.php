@@ -140,4 +140,19 @@ class TransactionController extends Controller
     {
         //
     }
+
+    /**
+     * Non conventional Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, Transaction $transaction)
+    {
+        $type = Type::find($transaction->type_id);
+        if($transaction->delete()){
+            $request->session()->flash('status', 'Transaction has been deleted!');
+            return redirect()->route('transaction.index', ['slug' => $type->slug]);
+        }
+    }
 }

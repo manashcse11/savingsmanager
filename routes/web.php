@@ -19,4 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('transaction', 'TransactionController')->middleware('auth');
+Route::get('transaction/{transaction}/delete', 'TransactionController@delete')->name('transaction.delete')->middleware('auth'); // Manually delete using GET method
 Route::resource('report', 'ReportController')->middleware('auth');

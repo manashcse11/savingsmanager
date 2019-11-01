@@ -3,10 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Transaction extends Model
 {
+    use SoftDeletes;
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
     protected $table = 'savings_transactions';
     protected $appends = [
         'interest_before_tax'
@@ -28,7 +36,7 @@ class Transaction extends Model
     /**
      * Relationships
      */
-    
+
     public function user(){
         return $this->hasOne('App\User', 'id', 'user_id');
     }
@@ -52,14 +60,14 @@ class Transaction extends Model
             $field = $this->startsWithRemove( $field, $prefix );
             if($field && $value){
                 $query->where($field, $value);
-            }            
+            }
         }
         return $query;
     }
     /**
      * User defined functions
      */
-    public function get_transactions($type_id, $filters){                
+    public function get_transactions($type_id, $filters){
         return $this->where('type_id', $type_id)
         ->transactionFilter($filters, "filter_")
         ->with(['user', 'organization', 'status'])
@@ -67,13 +75,13 @@ class Transaction extends Model
         ->get();
     }
 
-    public function startsWithRemove ($str, $prefix) 
-    { 
+    public function startsWithRemove ($str, $prefix)
+    {
         if (substr($str, 0, strlen($prefix)) == $prefix) {
             return $str = substr($str, strlen($prefix));
-        }  
-    } 
-    
+        }
+    }
+
     /**
      * Get the transaction's interest_before_tax
      *
@@ -85,7 +93,7 @@ class Transaction extends Model
         }
         if($this->type->slug == "dps"){
             return (($this->interest_rate * $this->amount * 12 * $this->duration) / 100);
-        }        
+        }
     }
 
     /**
@@ -109,7 +117,7 @@ class Transaction extends Model
         }
         if($this->type->slug == "dps"){
             return $this->amount * 12 * $this->duration + $this->interest_actual_amount;
-        }          
+        }
     }
 
     /**
@@ -121,7 +129,7 @@ class Transaction extends Model
         $start_date = Carbon::parse($this->start_date);
         $today = Carbon::now();
         $month_gone = $today->diffInMonths($start_date);
-        return $this->amount * $month_gone;  
+        return $this->amount * $month_gone;
     }
 
     /**

@@ -78,7 +78,7 @@
                     <td>{{ $tr->mature_date }}</td>
                     <td>
                         <a href="{{route('transaction.edit', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>
-                        <a href="{{route('transaction.destroy', $tr->id)}}"><i class="fa fa-trash float-right text-danger fa-lg"></i></a>
+                        <a href="{{ route('transaction.delete', $tr->id) }}"><i class="fa fa-trash float-right text-danger fa-lg"></i></a>
                     </td>
                 </tr>
             @endforeach
