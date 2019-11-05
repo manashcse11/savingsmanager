@@ -1,4 +1,4 @@
-<div style="overflow-x:auto;" class="card-body">
+<div class="card-body overflow-auto" class="card-body">
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -6,13 +6,13 @@
     @endif
     <form method="GET" action="{{ route('transaction.index') }}">
         @csrf
-        <table style="font-size:13px;" class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover font-13">
             <thead>
                 <tr>
-                    <th style="vertical-align: top !important; " scope="col">
+                    <th class="align-top" scope="col">
                         #<input type="hidden" name="slug" value="{{$type->slug}}">
                     </th>
-                    <th style="vertical-align: top !important; " scope="col">
+                    <th class="align-top" scope="col">
                         Owner
                         <select name="filter_user_id" class="form-control form-control-sm">
                             <option value="">All</option>
@@ -21,7 +21,7 @@
                             @endforeach
                         </select>
                     </th>
-                    <th style="vertical-align: top !important; " scope="col">
+                    <th class="align-top" scope="col">
                         Organization
                         <select name="filter_organization_id" class="form-control form-control-sm">
                             <option value="">All</option>
@@ -30,14 +30,14 @@
                             @endforeach
                         </select>
                     </th>
-                    <th style="vertical-align: top !important; " scope="col">Amount</th>
-                    <th style="vertical-align: top !important; " scope="col">Start Date</th>
-                    <th style="vertical-align: top !important; " scope="col">Duration</th>
-                    <th style="vertical-align: top !important; " scope="col">Interest Rate</th>
-                    <th style="vertical-align: top !important; " scope="col">Interest Before Tax</th>
-                    <th style="vertical-align: top !important; " scope="col">Interest</th>
-                    <th style="vertical-align: top !important; " scope="col">Total</th>
-                    <th style="vertical-align: top !important; " scope="col">
+                    <th class="align-top" scope="col">Amount</th>
+                    <th class="align-top" scope="col">Start Date</th>
+                    <th class="align-top" scope="col">Duration</th>
+                    <th class="align-top" scope="col">Interest Rate</th>
+                    <th class="align-top" scope="col">Interest Before Tax</th>
+                    <th class="align-top" scope="col">Interest</th>
+                    <th class="align-top" scope="col">Total</th>
+                    <th class="align-top" scope="col">
                         Status
                         <select name="filter_status_id" class="form-control form-control-sm">
                             <option value="">All</option>
@@ -46,7 +46,7 @@
                             @endforeach
                         </select>
                     </th>
-                    <th style="vertical-align: top !important; " scope="col">
+                    <th class="align-top" scope="col">
                         Mature Date
                         <div class="form-group row">
                             <div class="col-sm-10">
@@ -54,11 +54,11 @@
                             </div>
                         </div>
                     </th>
-                    <th style="vertical-align: top !important; " scope="col">AR Mature Date</th>
-                    <th style="vertical-align: top !important; " scope="col">Interest Before Tax</th>
-                    <th style="vertical-align: top !important; " scope="col">Interest</th>
-                    <th style="vertical-align: top !important; " scope="col">Total</th>
-                    <th style="vertical-align: top !important; " scope="col">Actions</th>
+                    <th class="align-top" scope="col">AR Mature Date</th>
+                    <th class="align-top" scope="col">Interest Before Tax</th>
+                    <th class="align-top" scope="col">Interest</th>
+                    <th class="align-top" scope="col">Total</th>
+                    <th class="align-top" scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
