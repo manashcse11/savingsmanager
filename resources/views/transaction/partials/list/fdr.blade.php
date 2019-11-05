@@ -54,7 +54,9 @@
                             </div>
                         </div>
                     </th>
+                    <th class="align-top" scope="col">Mature After</th>
                     <th class="align-top" scope="col">AR Mature Date</th>
+                    <th class="align-top" scope="col">Mature After</th>
                     <th class="align-top" scope="col">Interest Before Tax</th>
                     <th class="align-top" scope="col">Interest</th>
                     <th class="align-top" scope="col">Total</th>
@@ -76,7 +78,9 @@
                         <td>{{ $tr->total_amount }}</td>
                         <td>{{ $tr->status->name }}</td>
                         <td>{{ $tr->mature_date }}</td>
+                        <td>{{ $tr->mature_after }}</td>
                         <td>{{ $tr->ar_mature_date }}</td>
+                        <td>{{ $tr->ar_mature_after }}</td>
                         <td>{{ $tr->ar_interest_before_tax }}</td>
                         <td>{{ $tr->ar_interest_actual_amount }}</td>
                         <td>{{ $tr->ar_total_amount }}</td>

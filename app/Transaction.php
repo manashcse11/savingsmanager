@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
@@ -22,7 +23,9 @@ class Transaction extends Model
         , 'total_amount'
         , 'dps_paid'
         , 'dps_due'
+        , 'mature_after'
         , 'ar_mature_date'
+        , 'ar_mature_after'
         , 'ar_interest_before_tax'
         , 'ar_interest_actual_amount'
         , 'ar_total_amount'
@@ -142,12 +145,34 @@ class Transaction extends Model
     }
 
     /**
+     * Get the transaction's mature_after
+     *
+     * @return string
+     */
+    public function getMatureAfterAttribute(){
+        $mature_date = Carbon::parse($this->mature_date);
+        $today = Carbon::now();
+        return $mature_date->diff($today)->format($this->date_difference_string_format());
+    }
+
+    /**
      * Get the transaction's ar_mature_date
      *
      * @return string
      */
      public function getArMatureDateAttribute(){
         return Carbon::parse($this->mature_date)->addYears($this->duration)->format('Y-m-d');
+    }
+
+    /**
+     * Get the transaction's ar_mature_after
+     *
+     * @return string
+     */
+    public function getArMatureAfterAttribute(){
+        $ar_mature_date = Carbon::parse($this->ar_mature_date);
+        $today = Carbon::now();
+        return $ar_mature_date->diff($today)->format($this->date_difference_string_format());
     }
 
     /**
@@ -176,5 +201,9 @@ class Transaction extends Model
      */
      public function getArTotalAmountAttribute(){
         return $this->auto_renewal ? $this->total_amount + $this->ar_interest_actual_amount : "N/A";
+    }
+
+    public function date_difference_string_format(){
+         return '%y ' . Str::plural('Year') . ' %m ' . Str::plural('Month') . ' %d ' . Str::plural('Day') . '';
     }
 }
