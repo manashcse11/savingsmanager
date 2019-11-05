@@ -69,14 +69,14 @@
                     <td>{{ $tr->amount }}</td>
                     <td>{{ $tr->dps_paid }}</td>
                     <td>{{ $tr->dps_due }}</td>
-                    <td>{{ $tr->start_date }}</td>
+                    <td>{{ $tr->start_date->toFormattedDateString() }}</td>
                     <td>{{ $tr->duration }}</td>
                     <td>{{ $tr->interest_rate }}</td>
                     <td>{{ $tr->interest_before_tax }}</td>
                     <td>{{ $tr->interest_actual_amount }}</td>
                     <td>{{ $tr->total_amount }}</td>
                     <td>{{ $tr->status->name }}</td>
-                    <td>{{ $tr->mature_date }}</td>
+                    <td>{{ $tr->mature_date->toFormattedDateString() }}</td>
                     <td>{{ $tr->mature_after }}</td>
                     <td>
                         <a href="{{route('transaction.edit', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>

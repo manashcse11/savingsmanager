@@ -15,7 +15,7 @@ class Transaction extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['start_date', 'mature_date',  'deleted_at'];
     protected $table = 'savings_transactions';
     protected $appends = [
         'interest_before_tax'
@@ -129,9 +129,8 @@ class Transaction extends Model
      * @return string
      */
      public function getDpsPaidAttribute(){
-        $start_date = Carbon::parse($this->start_date);
         $today = Carbon::now();
-        $month_gone = $today->diffInMonths($start_date);
+        $month_gone = $today->diffInMonths($this->start_date);
         return $this->amount * $month_gone;
     }
 
@@ -150,9 +149,8 @@ class Transaction extends Model
      * @return string
      */
     public function getMatureAfterAttribute(){
-        $mature_date = Carbon::parse($this->mature_date);
         $today = Carbon::now();
-        return $mature_date->diff($today)->format($this->date_difference_string_format());
+        return $this->mature_date->diff($today)->format($this->date_difference_string_format());
     }
 
     /**
@@ -161,7 +159,7 @@ class Transaction extends Model
      * @return string
      */
      public function getArMatureDateAttribute(){
-        return Carbon::parse($this->mature_date)->addYears($this->duration)->format('Y-m-d');
+        return $this->mature_date->addYears($this->duration)->toFormattedDateString();
     }
 
     /**
