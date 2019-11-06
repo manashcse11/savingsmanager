@@ -72,6 +72,7 @@ class Transaction extends Model
      */
     public function get_transactions($type_id, $filters){
         return $this->where('type_id', $type_id)
+        ->where('has_withdrawn', 0)
         ->transactionFilter($filters, "filter_")
         ->with(['user', 'organization', 'status'])
         ->orderby('start_date')
