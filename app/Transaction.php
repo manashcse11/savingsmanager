@@ -79,6 +79,17 @@ class Transaction extends Model
         ->get();
     }
 
+    public function get_yearly_summary_report(){
+        $has_withdrawn = 0;
+        $transaction = User::with(['transaction' => function($q) use($has_withdrawn) {
+            $q->where("has_withdrawn", $has_withdrawn);
+        }])->get();
+        $first_tr_date = Transaction::where('has_withdrawn', 0)->min('start_date');
+        $last_tr_date = Transaction::where('has_withdrawn', 0)->max('mature_date');
+        dd($last_tr_date);
+        dd($first_tr_date);
+    }
+
     public function startsWithRemove ($str, $prefix)
     {
         if (substr($str, 0, strlen($prefix)) == $prefix) {

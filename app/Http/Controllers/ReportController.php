@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Type;
+use App\User;
+use App\Transaction;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -11,9 +14,14 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $transaction = new Transaction();
+        $data['users'] = User::orderby('name')->get();
+        $data['types'] = Type::orderby('name')->get();
+        $data['reports'] = $transaction->get_yearly_summary_report();
+        dd($data['reports']);
+        return view('report.list', $data);
     }
 
     /**
