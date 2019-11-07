@@ -81,13 +81,41 @@ class Transaction extends Model
 
     public function get_yearly_summary_report(){
         $has_withdrawn = 0;
-        $transaction = User::with(['transaction' => function($q) use($has_withdrawn) {
+        $users = User::with(['transaction' => function($q) use($has_withdrawn) {
             $q->where("has_withdrawn", $has_withdrawn);
         }])->get();
-        $first_tr_date = Transaction::where('has_withdrawn', 0)->min('start_date');
-        $last_tr_date = Transaction::where('has_withdrawn', 0)->max('mature_date');
-        dd($last_tr_date);
-        dd($first_tr_date);
+        $start_year = $this->transaction_year_boundary('min', 'start_date');
+        $end_year = $this->transaction_year_boundary('max', 'mature_date');
+        for($i = $start_year; $i <= $end_year; $i++){
+            foreach($users as $user){
+                foreach($user->transaction as $transaction){
+                    $this->transaction_total_calculation($transaction, $i);
+                }
+                $tr['owner'] = $user->name;
+                $tr['dps'] = $user->name;
+                $tr['sanchaypatra'] = $user->name;
+                $tr['individual_total'] = $user->name;
+            }
+        }
+
+    }
+
+    public function transaction_total_calculation($transaction, $year){
+        $last_date = $year . "-12-31";
+        if($transaction->type->slug == "fdr"){
+            if($transaction->mature_date <= $last_date){ //Matured
+                
+            }
+        }
+        if($transaction->type->slug == "dps"){
+
+        }
+    }
+
+    public function transaction_year_boundary($type, $field){
+        $tr_date = Transaction::where('has_withdrawn', 0)->{$type}($field);
+        $tr_date = new Carbon( $tr_date );
+        return $tr_date->format('Y');
     }
 
     public function startsWithRemove ($str, $prefix)
