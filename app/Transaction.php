@@ -100,15 +100,22 @@ class Transaction extends Model
 
     }
 
+    public function is_matured($last_date, $mature_date){
+        return $mature_date <= $last_date;
+    }
+
     public function transaction_total_calculation($transaction, $year){
         $last_date = $year . "-12-31";
+        $matured = $this->is_matured($last_date, $transaction->mature_date);
         if($transaction->type->slug == "fdr"){
-            if($transaction->mature_date <= $last_date){ //Matured
-                
-            }
+            return $matured ? $transaction->total_amount : $transaction->amount;
         }
         if($transaction->type->slug == "dps"){
-
+            if($matured){
+                return $transaction->total_amount;
+            }
+            $last_date = Carbon::parse($last_date)->format('Y-m-d');
+            $month_total = $last_date->diffInMonths($transaction->start_date);
         }
     }
 
