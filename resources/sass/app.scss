@@ -24,3 +24,9 @@
 .font-13{
     font-size: 13px;
 }
+tbody [rowspan],
+tbody [rowspan] ~ th,
+tbody [rowspan] ~ td,
+tfoot {
+  border-top: 2px solid #dee2e6;
+}
