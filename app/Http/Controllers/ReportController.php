@@ -20,7 +20,6 @@ class ReportController extends Controller
         $data['users'] = User::orderby('name')->get();
         $data['types'] = Type::orderby('name')->get();
         $data['reports'] = $transaction->get_yearly_summary_report();
-        dd($data['reports']);
         return view('report.list', $data);
     }
 

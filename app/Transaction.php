@@ -88,6 +88,7 @@ class Transaction extends Model
         $end_year = $this->transaction_year_boundary('max', 'mature_date');
         $yr = array();
         for($i = $start_year; $i <= $end_year; $i++){
+            $grand_total = 0;
             foreach($users as $user){
                 $tr = array();
                 $fdr_total = 0;
@@ -106,8 +107,10 @@ class Transaction extends Model
                 $tr['dps'] = $dps_total;
                 $tr['individual_total'] = $fdr_total + $dps_total;
                 $us[$user->id] = $tr;
+                $grand_total += $tr['individual_total'];
             }
-            $yr[$i] = $us;
+            $yr[$i]['users'] = $us;
+            $yr[$i]['grand_total'] = $grand_total;
         }
         return $yr;
     }

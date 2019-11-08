@@ -30,38 +30,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-{{--                                @foreach ($transactions as $tr)--}}
-                                <tr>
-                                    <th scope="row" rowspan="2">1</th>
-                                    <td>Manash</td>
-                                    <td>600000</td>
-                                    <td>750000</td>
-                                    <td>135000</td>
-                                    <td rowspan="2">200000</td>
-                                    <td rowspan="2">2019</td>
-                                </tr>
-                                <tr>
-                                    <td>Manash</td>
-                                    <td>600000</td>
-                                    <td>750000</td>
-                                    <td>135000</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" rowspan="2">2</th>
-                                    <td>Manash</td>
-                                    <td>600000</td>
-                                    <td>750000</td>
-                                    <td>135000</td>
-                                    <td rowspan="2">200000</td>
-                                    <td rowspan="2">2020</td>
-                                </tr>
-                                <tr>
-                                    <td>Manash</td>
-                                    <td>600000</td>
-                                    <td>750000</td>
-                                    <td>135000</td>
-                                </tr>
-{{--                                @endforeach--}}
+                                @foreach ($reports as $yr_key => $report)
+                                    @foreach ($report['users'] as $user_key => $user_value)
+                                        <tr>
+                                            @if($loop->index == 0)
+                                                <th scope="row" rowspan="{{count($report['users'])}}">{{ $loop->parent->index + 1 }}</th>
+                                            @endif
+                                            <td>{{$user_value['owner']}}</td>
+                                            <td>{{$user_value['dps']}}</td>
+                                            <td>{{$user_value['fdr']}}</td>
+                                            <td>{{$user_value['individual_total']}}</td>
+                                            @if($loop->index == 0)
+                                                <td rowspan="{{count($report['users'])}}">{{$report['grand_total']}}</td>
+                                                <td rowspan="{{count($report['users'])}}">{{$yr_key}}</td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
