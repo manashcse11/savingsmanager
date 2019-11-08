@@ -140,6 +140,10 @@ class Transaction extends Model
     public function transaction_year_boundary($type, $field){
         $tr_date = Transaction::where('has_withdrawn', 0)->{$type}($field);
         $tr_date = new Carbon( $tr_date );
+        if($type == "max"){
+            $tr_duration = Transaction::where('has_withdrawn', 0)->where('auto_renewal', 1)->{$type}('duration');
+            return $tr_date->addYears($tr_duration)->format('Y');
+        }
         return $tr_date->format('Y');
     }
 
