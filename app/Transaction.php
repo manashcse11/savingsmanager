@@ -86,18 +86,30 @@ class Transaction extends Model
         }])->get();
         $start_year = $this->transaction_year_boundary('min', 'start_date');
         $end_year = $this->transaction_year_boundary('max', 'mature_date');
+        $yr = array();
         for($i = $start_year; $i <= $end_year; $i++){
             foreach($users as $user){
-                foreach($user->transaction as $transaction){
-                    $this->transaction_total_calculation($transaction, $i);
-                }
+                $tr = array();
+                $fdr_total = 0;
+                $dps_total = 0;
                 $tr['owner'] = $user->name;
-                $tr['dps'] = $user->name;
-                $tr['sanchaypatra'] = $user->name;
-                $tr['individual_total'] = $user->name;
+                foreach($user->transaction as $transaction){
+                    $transaction_total = $this->transaction_total_calculation($transaction, $i);
+                    if($transaction->type->slug == "fdr"){
+                        $fdr_total += $transaction_total ;
+                    }
+                    if($transaction->type->slug == "dps"){
+                        $dps_total += $transaction_total ;
+                    }
+                }
+                $tr['fdr'] = $fdr_total;
+                $tr['dps'] = $dps_total;
+                $tr['individual_total'] = $fdr_total + $dps_total;
+                $us[$user->id] = $tr;
             }
+            $yr[$i] = $us;
         }
-
+        return $yr;
     }
 
     public function is_matured($last_date, $mature_date){
@@ -105,8 +117,11 @@ class Transaction extends Model
     }
 
     public function transaction_total_calculation($transaction, $year){
-        $last_date = Carbon::createFromDate($year, 12, 31);         
+        $last_date = Carbon::createFromDate($year, 12, 31);
         $matured = $this->is_matured($last_date, $transaction->mature_date);
+        if($last_date <= $transaction->start_date){ // Transaction what have not started yet
+            return 0;
+        }
         if($transaction->type->slug == "fdr"){
             return $matured ? $transaction->total_amount : $transaction->amount;
         }
@@ -114,7 +129,8 @@ class Transaction extends Model
             if($matured){
                 return $transaction->total_amount;
             }
-            return $month_total = $transaction->start_date->diffInMonths($last_date);
+            $month_total = $transaction->start_date->diffInMonths($last_date);
+            return $transaction->amount * $month_total;
         }
     }
 
