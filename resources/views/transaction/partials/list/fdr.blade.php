@@ -69,21 +69,21 @@
                         <th scope="row">{{ $loop->index + 1 }}</th>
                         <td>{{ $tr->user->name }}</td>
                         <td>{{ $tr->organization->name }}</td>
-                        <td>{{ $tr->amount }}</td>
+                        <td>{{ number_format($tr->amount) }}</td>
                         <td>{{ $tr->start_date->toFormattedDateString() }}</td>
                         <td>{{ $tr->duration }}</td>
                         <td>{{ $tr->interest_rate }}</td>
-                        <td>{{ $tr->interest_before_tax }}</td>
-                        <td>{{ $tr->interest_actual_amount }}</td>
-                        <td>{{ $tr->total_amount }}</td>
+                        <td>{{ number_format($tr->interest_before_tax) }}</td>
+                        <td>{{ number_format($tr->interest_actual_amount) }}</td>
+                        <td>{{ number_format($tr->total_amount) }}</td>
                         <td>{{ $tr->status->name }}</td>
                         <td>{{ $tr->mature_date->toFormattedDateString() }}</td>
                         <td>{{ $tr->mature_after }}</td>
                         <td>{{ $tr->ar_mature_date }}</td>
                         <td>{{ $tr->ar_mature_after }}</td>
-                        <td>{{ $tr->ar_interest_before_tax }}</td>
-                        <td>{{ $tr->ar_interest_actual_amount }}</td>
-                        <td>{{ $tr->ar_total_amount }}</td>
+                        <td>{{ number_format($tr->ar_interest_before_tax) }}</td>
+                        <td>{{ number_format($tr->ar_interest_actual_amount) }}</td>
+                        <td>{{ number_format($tr->ar_total_amount) }}</td>
                         <td>
                             <a href="{{route('transaction.edit', $tr->id)}}"><i class="fa fa-edit float-left fa-lg"></i></a>
                             <a href="{{ route('transaction.delete', $tr->id) }}"><i class="fa fa-trash float-right text-danger fa-lg"></i></a>

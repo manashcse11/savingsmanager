@@ -36,13 +36,13 @@
                                             @if($loop->index == 0)
                                                 <th scope="row" rowspan="{{count($report['users'])}}">{{ $loop->parent->index + 1 }}</th>
                                             @endif
-                                            <td>{{$user_value['owner']}}</td>
-                                            <td>{{$user_value['dps']}}</td>
-                                            <td>{{$user_value['fdr']}}</td>
-                                            <td>{{$user_value['individual_total']}}</td>
+                                            <td>{{ $user_value['owner'] }}</td>
+                                            <td>{{ number_format($user_value['dps']) }}</td>
+                                            <td>{{ number_format($user_value['fdr']) }}</td>
+                                            <td>{{ number_format($user_value['individual_total']) }}</td>
                                             @if($loop->index == 0)
-                                                <td rowspan="{{count($report['users'])}}">{{$report['grand_total']}}</td>
-                                                <td rowspan="{{count($report['users'])}}">{{$yr_key}}</td>
+                                                <td rowspan="{{count($report['users'])}}">{{ number_format($report['grand_total']) }}</td>
+                                                <td rowspan="{{count($report['users'])}}">{{ $yr_key }}</td>
                                             @endif
                                         </tr>
                                     @endforeach

@@ -66,15 +66,15 @@
                     <th scope="row">{{ $loop->index + 1 }}</th>
                     <td>{{ $tr->user->name }}</td>
                     <td>{{ $tr->organization->name }}</td>
-                    <td>{{ $tr->amount }}</td>
-                    <td>{{ $tr->dps_paid }}</td>
-                    <td>{{ $tr->dps_due }}</td>
+                    <td>{{ number_format($tr->amount) }}</td>
+                    <td>{{ number_format($tr->dps_paid) }}</td>
+                    <td>{{ number_format($tr->dps_due) }}</td>
                     <td>{{ $tr->start_date->toFormattedDateString() }}</td>
                     <td>{{ $tr->duration }}</td>
                     <td>{{ $tr->interest_rate }}</td>
-                    <td>{{ $tr->interest_before_tax }}</td>
-                    <td>{{ $tr->interest_actual_amount }}</td>
-                    <td>{{ $tr->total_amount }}</td>
+                    <td>{{ number_format($tr->interest_before_tax) }}</td>
+                    <td>{{ number_format($tr->interest_actual_amount) }}</td>
+                    <td>{{ number_format($tr->total_amount) }}</td>
                     <td>{{ $tr->status->name }}</td>
                     <td>{{ $tr->mature_date->toFormattedDateString() }}</td>
                     <td>{{ $tr->mature_after }}</td>
