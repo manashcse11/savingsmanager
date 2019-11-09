@@ -145,8 +145,10 @@ class Transaction extends Model
         $tr_date = Transaction::where('has_withdrawn', 0)->{$type}($field);
         $tr_date = new Carbon( $tr_date );
         if($type == "max"){
+            $ar_max_tr_date = Carbon::parse(Transaction::where('has_withdrawn', 0)->where('auto_renewal', 1)->{$type}($field));
             $tr_duration = Transaction::where('has_withdrawn', 0)->where('auto_renewal', 1)->{$type}('duration');
-            return $tr_date->addYears($tr_duration)->format('Y');
+            $ar_mature_date =  $ar_max_tr_date->addYears($tr_duration);
+            return $ar_mature_date > $tr_date ? $ar_mature_date->format('Y') : $tr_date->format('Y');
         }
         return $tr_date->format('Y');
     }
