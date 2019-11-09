@@ -126,6 +126,10 @@ class Transaction extends Model
             return 0;
         }
         if($transaction->type->slug == "fdr"){
+            if($matured && $transaction->auto_renewal){
+                $ar_matured = $this->is_matured($last_date, Carbon::parse($transaction->ar_mature_date));
+                return $ar_matured ? $transaction->ar_total_amount : $transaction->total_amount;
+            }
             return $matured ? $transaction->total_amount : $transaction->amount;
         }
         if($transaction->type->slug == "dps"){
