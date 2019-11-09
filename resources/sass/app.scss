@@ -10,6 +10,12 @@
 // Fontawesome
 @import "~font-awesome/scss/font-awesome.scss";
 
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1300px;
+    }
+}
+
 @media (min-width: 1500px) {
     .container {
         max-width: 1480px;
