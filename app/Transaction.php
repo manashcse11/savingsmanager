@@ -254,7 +254,7 @@ class Transaction extends Model
      * @return string
      */
      public function getArInterestBeforeTaxAttribute(){
-        return $this->auto_renewal ? round((($this->interest_rate * $this->total_amount) / 100) * $this->duration) : "N/A";
+        return $this->auto_renewal ? round((($this->interest_rate * $this->total_amount) / 100) * $this->duration) : 0;
     }
 
     /**
@@ -264,7 +264,7 @@ class Transaction extends Model
      */
      public function getArInterestActualAmountAttribute(){
         $tax = 10;
-        return $this->auto_renewal ? $this->ar_interest_before_tax - ($this->ar_interest_before_tax * $tax) / 100 : "N/A";
+        return $this->auto_renewal ? $this->ar_interest_before_tax - ($this->ar_interest_before_tax * $tax) / 100 : 0;
     }
 
     /**
@@ -273,7 +273,7 @@ class Transaction extends Model
      * @return string
      */
      public function getArTotalAmountAttribute(){
-        return $this->auto_renewal ? $this->total_amount + $this->ar_interest_actual_amount : "N/A";
+        return $this->auto_renewal ? $this->total_amount + $this->ar_interest_actual_amount : 0;
     }
 
     public function date_difference_string_format(){
