@@ -17,6 +17,7 @@ class OrganizationsTableSeeder extends Seeder
             , ['name' => "Bangladesh Bank"]
             , ['name' => "DBBL"]
             , ['name' => "EBL"]
+            , ['name' => "Grameen Bank"]
         ]);
     }
 }
