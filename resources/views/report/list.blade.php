@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach ($reports as $yr_key => $report)
                                     @foreach ($report['users'] as $user_key => $user_value)
-                                        <tr>
+                                        <tr {{ $yr_key == \Carbon\Carbon::now()->format('Y') ? "class=bg-azure" : "" }}>
                                             @if($loop->index == 0)
                                                 <th scope="row" rowspan="{{count($report['users'])}}">{{ $loop->parent->index + 1 }}</th>
                                             @endif
