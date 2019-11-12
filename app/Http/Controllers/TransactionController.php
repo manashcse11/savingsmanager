@@ -47,26 +47,12 @@ class TransactionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */    
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric',
-            'start_date' => 'required',
-            'duration' => 'required|numeric',
-            'interest_rate' => 'required|numeric',
-        ]);
+        $this->transaction_validate($request);
         $transaction = new Transaction();
-        $transaction->user_id = $request->user_id;
-        $transaction->type_id = $request->type_id;
-        $transaction->organization_id = $request->organization_id;
-        $transaction->amount = $request->amount;
-        $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
-        $transaction->duration = $request->duration;
-        $transaction->interest_rate = $request->interest_rate;
-        $transaction->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
-        $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
-        if($transaction->save()){
+        if($this->transaction_insert_or_update($request, $transaction)){
             $request->session()->flash('status', 'Transaction added successfully!');
             return redirect()->route('transaction.create');
         }
@@ -107,23 +93,8 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        $request->validate([
-            'amount' => 'required|numeric',
-            'start_date' => 'required',
-            'duration' => 'required|numeric',
-            'interest_rate' => 'required|numeric',
-        ]);
-
-        $transaction->user_id = $request->user_id;
-        $transaction->type_id = $request->type_id;
-        $transaction->organization_id = $request->organization_id;
-        $transaction->amount = $request->amount;
-        $transaction->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
-        $transaction->duration = $request->duration;
-        $transaction->interest_rate = $request->interest_rate;
-        $transaction->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
-        $transaction->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
-        if($transaction->save()){
+        $this->transaction_validate($request);
+        if($this->transaction_insert_or_update($request, $transaction)){
             $type = Type::find($transaction->type_id);
             $request->session()->flash('status', 'Transaction saved successfully!');
             return redirect()->route('transaction.index', ['slug' => $type->slug]);
@@ -154,5 +125,29 @@ class TransactionController extends Controller
             $request->session()->flash('status', 'Transaction has been deleted!');
             return redirect()->route('transaction.index', ['slug' => $type->slug]);
         }
+    }
+
+    public function transaction_validate($request){
+        return $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'start_date' => 'required',
+            'duration' => 'required|numeric',
+            'interest_rate' => 'required|numeric',
+        ]);
+    }
+    public function transaction_insert_or_update($request, $obj){
+        $obj->user_id = $request->user_id;
+        $obj->type_id = $request->type_id;
+        $obj->organization_id = $request->organization_id;
+        $obj->amount = $request->amount;
+        $obj->start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+        $obj->duration = $request->duration;
+        $obj->interest_rate = $request->interest_rate;
+        $obj->auto_renewal = $request->auto_renewal ? $request->auto_renewal : 0;
+        $obj->mature_date = Carbon::parse($request->start_date)->addYears($request->duration)->format('Y-m-d');
+        if($obj->save()){
+            return true;
+        }
+        return false;
     }
 }
