@@ -234,7 +234,7 @@ class Transaction extends Model
      * @return string
      */
      public function getArMatureDateAttribute(){
-        return $this->mature_date->addYears($this->duration)->toFormattedDateString();
+        return $this->auto_renewal ? $this->mature_date->addYears($this->duration)->toFormattedDateString() : "";
     }
 
     /**
@@ -245,7 +245,7 @@ class Transaction extends Model
     public function getArMatureAfterAttribute(){
         $ar_mature_date = Carbon::parse($this->ar_mature_date);
         $today = Carbon::now();
-        return $ar_mature_date->diff($today)->format($this->date_difference_string_format());
+        return $this->auto_renewal ? $ar_mature_date->diff($today)->format($this->date_difference_string_format()) : "";
     }
 
     /**
