@@ -31,7 +31,24 @@
                             </div>
                         </div>
                     </div>
-{{--                    You are logged in!--}}
+                    <div class="row mt-3">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Another Graph</h5>
+                                    {{--                                        @include('chart.bar')--}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Another Graph</h5>
+{{--                                    @include('chart.pie')--}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

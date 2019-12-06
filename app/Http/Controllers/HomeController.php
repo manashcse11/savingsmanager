@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,31 +24,30 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data['options'] = [
-            'title' => 'Population of Largest U.S. Cities',
-            'chartArea' => ['width' => '50%'],
-            'hAxis' => [
-                'title' => 'Total Population',
-                'minValue' => 0
-            ],
-            'vAxis' => [
-                'title' => 'City'
-            ],
-            'bars' => 'horizontal', //required if using material chart
-            'axes' => [
-                'y' => [0 => ['side' => 'right']]
-            ]
-        ];
-
-        $data['cols'] = ['City', '2010 Population', '2000 PopulaÎtions'];
-        $data['rows'] = [
-            ['New York City, NY', 8175000, 8008000],
-            ['Los Angeles, CA', 3792000, 3694000],
-            ['Chicago, IL', 2695000, 2896000],
-            ['Houston, TX', 2099000, 1953000],
-            ['Philadelphia, PA', 1526000, 1517000]
-        ];
-
+        $transaction = new Transaction();
+        $data['yearly_individual_bar'] = $this->yearlyIndividualBar($transaction->get_yearly_summary_report());
         return view('home', $data);
+    }
+
+    public function yearlyIndividualBar($records){
+        if($records){
+            $title = array("Year");
+            $i = 0;
+            foreach ($records as $yr_key => $yr_val) {
+                $item = array($yr_key);
+                foreach($yr_val['users'] as $tr){
+                    if($i == 0){
+                        array_push($title, strtok($tr['owner'], " "));
+                    }
+                    array_push($item, $tr['individual_total']);
+                }
+                if($i == 0){
+                    $data[] = $title;
+                }
+                $data[] = $item;
+                $i++;
+            }
+            return json_encode($data);
+        }
     }
 }

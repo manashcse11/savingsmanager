@@ -4,20 +4,13 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['City', '2010 Population', '2000 Population'],
-            ['New York City, NY', 8175000, 8008000],
-            ['Los Angeles, CA', 3792000, 3694000],
-            ['Chicago, IL', 2695000, 2896000],
-            ['Houston, TX', 2099000, 1953000],
-            ['Philadelphia, PA', 1526000, 1517000]
-        ]);
+        var data = google.visualization.arrayToDataTable(<?php echo $yearly_individual_bar; ?>);
 
         var options = {
-            title: 'Population of Largest U.S. Cities',
+            title: 'Yearly Savings of Individuals',
             chartArea: {width: '50%'},
             hAxis: {
-                title: 'Total Population',
+                title: 'Total Savings',
                 minValue: 0,
                 textStyle: {
                     bold: true,
@@ -31,7 +24,7 @@
                 }
             },
             vAxis: {
-                title: 'City',
+                title: 'Year',
                 textStyle: {
                     fontSize: 14,
                     bold: true,
@@ -48,4 +41,4 @@
         chart.draw(data, options);
     }
 </script>
-<div id="chart_div"></div>
+<div id="chart_div" style="width: 100%; height: 450px;"></div>
