@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Type;
 
 class HomeController extends Controller
 {
@@ -25,7 +27,9 @@ class HomeController extends Controller
     public function index()
     {
         $transaction = new Transaction();
-        $data['yearly_individual_bar'] = $this->yearlyIndividualBar($transaction->get_yearly_summary_report());
+        $yearly_summary = $transaction->get_yearly_summary_report();
+        $data['yearly_individual_bar'] = $this->yearlyIndividualBar($yearly_summary);
+        $data['type_percentage_pie'] = $this->typePercentageCurrentYearPie($yearly_summary);
         return view('home', $data);
     }
 
@@ -46,6 +50,27 @@ class HomeController extends Controller
                 }
                 $data[] = $item;
                 $i++;
+            }
+            return json_encode($data);
+        }
+    }
+
+    public function typePercentageCurrentYearPie($records){
+        if($records){
+            $current_year = $records[Carbon::now()->format('Y')];
+            $types = Type::orderby('name')->get();   
+            $data[] = array("Type", "Amount");         
+            $total = array();
+            foreach($types as $type){
+                $total[$type->slug] = 0;
+            }
+            foreach ($current_year['users'] as $list) {
+                foreach($types as $type){
+                    $total[$type->slug] += $list[$type->slug];
+                }
+            }
+            foreach($total as $key => $val){                
+                $data[] = array(strtoupper($key), $val);
             }
             return json_encode($data);
         }
