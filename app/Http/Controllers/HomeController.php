@@ -38,7 +38,7 @@ class HomeController extends Controller
             $title = array("Year");
             $i = 0;
             foreach ($records as $yr_key => $yr_val) {
-                $item = array($yr_key);
+                $item = array("$yr_key");
                 foreach($yr_val['users'] as $tr){
                     if($i == 0){
                         array_push($title, strtok($tr['owner'], " "));
